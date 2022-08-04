@@ -1,0 +1,56 @@
+#%%
+import requests
+import time 
+import random
+
+danMu_List = ["摸",
+              "摸"]
+
+
+def send_Danmu():
+    #索引
+    index = 0
+
+    while True:
+        time.sleep(75)
+        #b站弹幕api url
+        url = "https://api.live.bilibili.com/msg/send"
+        #获取弹幕信息
+        send_msg = danMu_List[index]
+        #获取当前时间
+        ti = int(time.time())
+        #直播间的id
+        roomid = "25371419"
+
+        data = {
+            "bubble": "0",
+            "msg": send_msg,              #弹幕内容
+            "color": "16777215",     
+            "mode": "1",
+            "fontsize": "25",
+            "rnd":"{}".format(ti),             #发送时间
+            "roomid": roomid,           #直播id
+            "csrf": "8dab132909f3fd4b8dbc4fc675aefec8",
+            "csrf_token": "8dab132909f3fd4b8dbc4fc675aefec8"
+        }
+
+        headers = {
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 SLBrowser/7.0.0.12151 SLBChan/103",
+            "cookie": "i-wanna-go-back=-1; _uuid=AF2B7E30-F175-03C1-48C2-FEDD4C9E70FF23098infoc; buvid3=766F92A2-DBEE-4F68-A30D-A0AAECF13AE9167630infoc; video_page_version=v_new_home_10; rpdid=|(k|))~R~JJJ0J'uYJYukk~)l; CURRENT_BLACKGAP=0; buvid4=A8997CFC-7C1F-C32F-CBD1-DD7D44D5116F32756-022031723-ivwPmy9DUk6h1ykXBTy2fA%3D%3D; nostalgia_conf=-1; CURRENT_QUALITY=80; hit-dyn-v2=1; PVID=1; LIVE_BUVID=AUTO2616508072013768; fingerprint=5cf08e7aa574e8e27226a50fea90f983; buvid_fp_plain=undefined; buvid_fp=044d8961dbeb5d521c526670a95e578a; DedeUserID=423166519; DedeUserID__ckMd5=841f417c4585913d; b_ut=5; blackside_state=0; CURRENT_FNVAL=4048; b_lsid=2C44BC5D_18263CC4188; bsource=search_baidu; Hm_lvt_8a6e55dbd2870f0f5bc9194cddf32a02=1659532880; Hm_lpvt_8a6e55dbd2870f0f5bc9194cddf32a02=1659532880; innersign=1; SESSDATA=b912d4bf%2C1675085648%2Ccccf2%2A81; bili_jct=8dab132909f3fd4b8dbc4fc675aefec8; b_timer=%7B%22ffp%22%3A%7B%22333.1007.fp.risk_766F92A2%22%3A%2218263CC44BD%22%2C%22444.41.fp.risk_766F92A2%22%3A%2218263CC6854%22%2C%22444.8.fp.risk_766F92A2%22%3A%2218263CC8395%22%2C%22888.65982.fp.risk_766F92A2%22%3A%2218263CC8430%22%2C%22333.788.fp.risk_766F92A2%22%3A%2218263E9CBE8%22%2C%22333.1193.fp.risk_766F92A2%22%3A%2218263E9E374%22%7D%7D; sid=oni5ijpt; bp_video_offset_423166519=690173297332060200",
+            "origin": "https://live.bilibili.com"
+        }
+
+        result = requests.post(url = url, headers = headers, data = data)
+
+        #索引自增
+        index += 1
+
+        #判断弹幕信息是否全部发送完毕，如果发送完毕则进入冷却状态
+        if index >= 2:
+            #冷却30分钟
+            time.sleep(75)
+            #弹幕信息归零，重头开始
+            index = 0
+
+send_Danmu()
+# %%
